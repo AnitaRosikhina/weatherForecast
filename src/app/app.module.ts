@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { SearchComponent } from './components/search/search.component';
 import { CardComponent } from './components/card/card.component';
 import { HttpClientModule } from "@angular/common/http";
 import { WeatherService } from "./services/weather.service";
@@ -14,7 +14,7 @@ import { MatInputModule } from "@angular/material/input";
 @NgModule({
   declarations: [
     AppComponent,
-    DropdownComponent,
+    SearchComponent,
     CardComponent
   ],
   imports: [
