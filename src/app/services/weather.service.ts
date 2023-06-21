@@ -6,10 +6,16 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class WeatherService {
+  private API_KEY = '2ca7f9dad835472284c94348232106';
 
   constructor(private httpClient: HttpClient) {}
 
-  getWeatherByCity(): Observable<any>{
-    return this.httpClient.get(`https://api.weatherapi.com/v12ca7f9dad835472284c94348232106`)
+  getWeatherByCity(city: string): Observable<any>{
+    return this.httpClient.get(`https://api.weatherapi.com/v1/current.json`, {
+      params: {
+        key: this.API_KEY,
+        q: city
+      }
+    });
   }
 }
