@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { WeatherService } from "./services/weather.service";
+import { ICity } from "./interfaces/city";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -8,12 +10,15 @@ import { WeatherService } from "./services/weather.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+  cities$!: Observable<ICity[]>;
+
   constructor(private weatherService: WeatherService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   searchCity(text: string): void {
-    this.weatherService.getCityByText(text).subscribe();
+    if (text.trim()) {
+      this.cities$ = this.weatherService.getCityByText(text);
+    }
   }
 }

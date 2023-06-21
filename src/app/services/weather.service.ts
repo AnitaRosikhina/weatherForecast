@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { ICity } from "../interfaces/city";
 
 @Injectable()
 export class WeatherService {
@@ -17,8 +18,8 @@ export class WeatherService {
     });
   }
 
-  getCityByText(text: string): Observable<any> {
-    return this.httpClient.get('https://api.weatherapi.com/v1/search.json', {
+  getCityByText(text: string): Observable<ICity[]> {
+    return this.httpClient.get<ICity[]>('https://api.weatherapi.com/v1/search.json', {
       params: {
         key: this.API_KEY,
         q: text

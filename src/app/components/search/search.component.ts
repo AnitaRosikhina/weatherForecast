@@ -1,20 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { debounceTime, distinctUntilChanged } from "rxjs";
+import { ICity } from "../../interfaces/city";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
-  @Input() items: any;
+  @Input() items!: ICity[];
 
   @Output() search = new EventEmitter<string>();
 
   searchControl = new FormControl();
-
-  constructor() { }
 
   ngOnInit(): void {
     this.searchControl.valueChanges

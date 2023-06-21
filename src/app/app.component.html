@@ -1,2 +1,5 @@
-<app-dropdown (search)="searchCity($event)"></app-dropdown>
+<app-search
+  [items]="cities$ | async"
+  (search)="searchCity($event)"
+></app-search>
 <app-card></app-card>
