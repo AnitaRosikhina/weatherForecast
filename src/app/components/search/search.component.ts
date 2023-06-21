@@ -10,9 +10,10 @@ import { ICity } from "../../interfaces/city";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
-  @Input() items!: ICity[];
+  @Input() items!: ICity[] | null;
 
   @Output() search = new EventEmitter<string>();
+  @Output() selectOption = new EventEmitter<{ lat: number; lon: number }>();
 
   searchControl = new FormControl();
 
@@ -25,5 +26,9 @@ export class SearchComponent implements OnInit {
       .subscribe((res) => {
       this.search.emit(res);
     });
+  }
+
+  select(lat: number, lon: number): void {
+    this.selectOption.emit({ lat, lon });
   }
 }

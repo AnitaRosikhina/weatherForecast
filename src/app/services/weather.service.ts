@@ -9,11 +9,12 @@ export class WeatherService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getWeatherByCity(city: string): Observable<any> {
+  getWeatherByLatLon(lat: number, lon: number): Observable<any> {
     return this.httpClient.get('https://api.weatherapi.com/v1/current.json', {
       params: {
+        // TODO: interceptor for API_KEY
         key: this.API_KEY,
-        q: city
+        q: lat + ',' + lon
       }
     });
   }

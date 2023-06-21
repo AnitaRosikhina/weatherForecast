@@ -1,5 +1,6 @@
 <app-search
   [items]="cities$ | async"
   (search)="searchCity($event)"
+  (selectOption)="getTodaysForecast($event)"
 ></app-search>
 <app-card></app-card>

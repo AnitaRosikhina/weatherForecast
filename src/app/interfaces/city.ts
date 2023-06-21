@@ -1,5 +1,7 @@
 export interface ICity {
-  id: number;
+  lat: number;
+  lon: number;
+  // TODO: decompose this Interface
   name: string;
   country: string;
   region: string;

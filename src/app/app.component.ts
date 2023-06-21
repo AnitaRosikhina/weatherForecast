@@ -21,4 +21,8 @@ export class AppComponent implements OnInit {
       this.cities$ = this.weatherService.getCityByText(text);
     }
   }
+
+  getTodaysForecast({ lat, lon }: { lat: number, lon: number }): void {
+    this.weatherService.getWeatherByLatLon(lat, lon).subscribe();
+  }
 }
