@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from "@angular/forms";
-import { debounceTime, distinctUntilChanged, Subject, takeUntil } from "rxjs";
+import { debounceTime, distinctUntilChanged, filter, Subject, takeUntil, tap } from "rxjs";
 import { City } from "../../interfaces/city";
 
 @Component({
@@ -16,18 +16,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   @Output() selectOption = new EventEmitter<City.Coordinates>();
 
   searchControl = new FormControl();
+  isOptionSelected = false;
+
   destroy$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.searchControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged(),
-        debounceTime(300),
-      )
-      .subscribe((res) => {
-      this.search.emit(res);
-    });
+    this.listenValueChanges();
   }
 
   ngOnDestroy(): void {
@@ -35,8 +29,24 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  listenValueChanges(): void {
+    this.searchControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged(),
+        filter(() => !this.isOptionSelected),
+        debounceTime(400),
+      )
+      .subscribe((res) => {
+        this.search.emit(res);
+      });
+  }
+
   select(lat: number, lon: number): void {
+    this.isOptionSelected = true;
     this.selectOption.emit({ lat, lon });
+    // TODO: make a better decision
+    setTimeout(() => this.isOptionSelected = false, 0);
   }
 
   getOptionValue({ country, region, name }: City.Data): string {

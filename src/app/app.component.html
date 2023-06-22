@@ -3,4 +3,4 @@
   (search)="searchCity($event)"
   (selectOption)="getTodaysForecast($event)"
 ></app-search>
-<app-card></app-card>
+<app-card [item]="forecast$ | async"></app-card>
