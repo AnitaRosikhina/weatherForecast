@@ -1,8 +1,12 @@
-export interface ICity {
-  lat: number;
-  lon: number;
-  // TODO: decompose this Interface
-  name: string;
-  country: string;
-  region: string;
+export namespace City {
+  export interface Data extends Coordinates {
+    name: string;
+    country: string;
+    region: string;
+  }
+
+  export interface Coordinates {
+    lat: number;
+    lon: number;
+  }
 }

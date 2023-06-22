@@ -9,8 +9,9 @@
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option
       *ngFor="let item of items"
-      [value]="item.name"
-      (onSelectionChange)="select(item.lat, item.lon)">
+      [value]="getOptionValue(item)"
+      (onSelectionChange)="select(item.lat, item.lon)"
+    >
       <u>{{item.country}}</u> | <i>{{item.region}}</i> | <b>{{item.name}}</b>
     </mat-option>
   </mat-autocomplete>

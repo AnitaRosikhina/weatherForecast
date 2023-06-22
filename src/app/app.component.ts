@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { WeatherService } from "./services/weather.service";
-import { ICity } from "./interfaces/city";
+import { City } from "./interfaces/city";
 import { Observable } from "rxjs";
 
 @Component({
@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  cities$!: Observable<ICity[]>;
+  cities$!: Observable<City.Data[]>;
 
   constructor(private weatherService: WeatherService) {}
 
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  getTodaysForecast({ lat, lon }: { lat: number, lon: number }): void {
+  getTodaysForecast({ lat, lon }: City.Coordinates): void {
     this.weatherService.getWeatherByLatLon(lat, lon).subscribe();
   }
 }

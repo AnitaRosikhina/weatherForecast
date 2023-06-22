@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from "@angular/forms";
-import { debounceTime, distinctUntilChanged } from "rxjs";
-import { ICity } from "../../interfaces/city";
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from "rxjs";
+import { City } from "../../interfaces/city";
 
 @Component({
   selector: 'app-search',
@@ -9,17 +9,19 @@ import { ICity } from "../../interfaces/city";
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchComponent implements OnInit {
-  @Input() items!: ICity[] | null;
+export class SearchComponent implements OnInit, OnDestroy {
+  @Input() items!: City.Data[] | null;
 
   @Output() search = new EventEmitter<string>();
-  @Output() selectOption = new EventEmitter<{ lat: number; lon: number }>();
+  @Output() selectOption = new EventEmitter<City.Coordinates>();
 
   searchControl = new FormControl();
+  destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.searchControl.valueChanges
       .pipe(
+        takeUntil(this.destroy$),
         distinctUntilChanged(),
         debounceTime(300),
       )
@@ -28,7 +30,16 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   select(lat: number, lon: number): void {
     this.selectOption.emit({ lat, lon });
+  }
+
+  getOptionValue({ country, region, name }: City.Data): string {
+    return `${country} | ${region} | ${name}`;
   }
 }
