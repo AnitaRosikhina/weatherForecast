@@ -5,15 +5,11 @@ import { ICity } from "../interfaces/city";
 
 @Injectable()
 export class WeatherService {
-  private API_KEY = '2ca7f9dad835472284c94348232106';
-
   constructor(private httpClient: HttpClient) {}
 
   getWeatherByLatLon(lat: number, lon: number): Observable<any> {
     return this.httpClient.get('https://api.weatherapi.com/v1/current.json', {
       params: {
-        // TODO: interceptor for API_KEY
-        key: this.API_KEY,
         q: lat + ',' + lon
       }
     });
@@ -22,7 +18,6 @@ export class WeatherService {
   getCityByText(text: string): Observable<ICity[]> {
     return this.httpClient.get<ICity[]>('https://api.weatherapi.com/v1/search.json', {
       params: {
-        key: this.API_KEY,
         q: text
       }
     });
